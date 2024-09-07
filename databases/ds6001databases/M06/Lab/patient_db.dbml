@@ -1,0 +1,53 @@
+Project Patients {
+  database_type: ''
+  Note: '''
+    # (Fake) Data on people who were hospitalized and received at least one prescription for a medication.
+    **Databased created for DS6001: Lab 6 July 2024**
+  '''
+}
+Table PATIENTS as P {
+    patient_name varchar [pk]
+    date_of_birth varchar [pk]
+    patient_sex varchar
+    patient_insurance varchar
+    attending_physician varchar
+    note: "table 'PATIENTS' contains individual patient information"
+}
+Table DIAGNOSES as D {
+    patient_name varchar [pk]
+    date_of_birth varchar [pk]
+    prior_conditon varchar [pk]
+    note: "table 'DIAGNOSES' contains patients' condition diagnoses prior to hospitalization"
+}
+Table DRUGS as DR {
+    prescribed_drug varchar [pk]
+    drug_maker varchar
+    drug_cost float
+    note: "table 'DRUGS' contains patients' prescriped drugs information: maker and cost"
+}
+Table PRESCRIPTIONS as PR {
+    patient_name varchar [pk]
+    date_of_birth varchar [pk]
+    prescribed_drug varchar [pk]
+    note: "table 'PRESCRIPTIONS' contains patients' prescriped drugs"
+}
+Table PHYSICIANS as PH {
+    attending_physician varchar [pk]
+    AP_medschool varchar
+    AP_years_experience int
+    hospital varchar
+    note: "table 'PHYSICIANS' contains patients' attending physicians information"
+}
+Table HOSPITALS as H {
+    hospital varchar [pk]
+    hospital_location varchar
+    note: "table 'HOSPITALS' contains the hospital location"
+}
+
+Ref: P.patient_name < PR.patient_name
+Ref: P.date_of_birth < PR.date_of_birth
+Ref: PR.patient_name <> D.patient_name
+Ref: PR.date_of_birth <> D.date_of_birth
+Ref: PR.prescribed_drug > DR.prescribed_drug
+Ref: PH.attending_physician < P.attending_physician
+Ref: H.hospital < PH.hospital

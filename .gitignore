@@ -1,0 +1,21 @@
+# Ignore everything
+*
+
+# Do not ignore directories (so that .ipynb, .dbml, .db, and .py files in subdirectories are included)
+!*/
+
+# Ignore everything in .ipynb_checkpoints directories
+.ipynb_checkpoints/
+**/.ipynb_checkpoints/
+
+# Track Jupyter notebook files
+!*.ipynb
+
+# Track DBML files
+!*.dbml
+
+# Track database files
+!*.db
+
+# Track Python files
+!*.py

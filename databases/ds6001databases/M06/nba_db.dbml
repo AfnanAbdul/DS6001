@@ -1,0 +1,103 @@
+Project NBA {
+  database_type: 'PostgreSQL'
+  Note: '''
+    # NBA Player and Game Stats, 2019 - 2022
+    **Databased created for DS6001 July 2024**
+  '''
+}
+Table player_game as PG {
+    game_id varchar [pk]
+    player_id varchar [pk]
+    team_abbrev varchar
+    starter int
+    mp varchar
+    fg int
+    fga int
+    fg_pct float
+    fg3 int
+    fg3a int
+    fg3_pct float
+    ft int
+    fta int
+    ft_pct float
+    orb int
+    drb int
+    trb int
+    ast int
+    stl int
+    blk int
+    tov int
+    pf int
+    pts int
+    plus_minus int
+    did_not_play int
+    is_inactive int
+    ts_pct float
+    efg_pct float
+    fg3a_per_fga_pct float
+    fta_per_fga_pct float
+    orb_pct float
+    drb_pct float
+    trb_pct float
+    ast_pct float
+    stl_pct float
+    blk_pct float
+    tov_pct float
+    usg_pct float
+    off_rtg int
+    def_rtg int
+    bpm float
+    minutes float
+    double_double int
+    triple_double int
+    dkp float
+    fdp float
+    sdp float
+    dkp_per_minute varchar
+    fdp_per_minute varchar
+    sdp_per_minute varchar
+    pf_per_minute float
+    ts float
+    last_60_minutes_per_game_starting float
+    last_60_minutes_per_game_bench float
+    pg_pct float
+    sg_pct float
+    sf_pct float
+    pf_pct float
+    c_pct float
+    active_position_minutes float
+    note: "table 'player_game' contains individual player statistics in each game"
+}
+Table team_game as TG { 
+    game_id varchar [pk]
+    team_abbrev varchar [pk]
+    team_score int 
+    team_pace float
+    team_efg_pct float
+    team_tov_pct float
+    team_orb_pct float
+    team_ft_rate float
+    team_off_rtg float
+    opponent_abbrev varchar 
+    note: "table 'team_game' contains team stats for each game. Note: to get win/loss join this table with itself on opponent_abbrev"
+}
+Table players as P {
+    player_id varchar [pk]
+    player varchar
+    note:" table 'players' only contains player names for now"
+}
+Table games as G {
+    game_id varchar [pk]
+    game_date varchar
+    ot int
+    season int 
+    note: "table 'games' contains info about games that isn't tied to a player or team"
+}
+
+
+Ref: G.game_id < PG.game_id
+Ref: P.player_id < PG.player_id
+Ref: G.game_id < TG.game_id
+Ref: PG.game_id > TG.game_id
+Ref: PG.team_abbrev > TG.team_abbrev
+Ref: TG.team_abbrev - TG.opponent_abbrev
